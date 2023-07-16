@@ -11,6 +11,8 @@ function setShare() {
 }
 
 function kakaoShare() {
+	let resultImg = document.querySelector("#resultImg");
+	let resultAlt = resultImg.firstElementChild.alt;
 	Kakao.Share.sendDefault({
 		objectType: 'feed',
 		content: {
@@ -27,7 +29,7 @@ function kakaoShare() {
 			profileText: '아무테스트',
 			profileImageUrl: '/img/favicon.ico',
 			titleImageUrl: '/img/image-' + resultAlt + '.png',
-			titleImageText: '나는 ' + resultAlt,
+			titleImageText: '나는 ' + resultAlt + '!',
 			titleImageCategory: '너도 해봐!',
 		},
 		buttons: [
