@@ -6,27 +6,23 @@ let target = 0
 const endPoint = qnaList.length;
 let score = 0;
 
-function calResult(){
-	console.log(score);
-	let result = score;
-	return result;
-}
 
+// setResult 수정해야함 20230720 
 function setResult(){
-	let point = calResult();
+
 	const resultName = document.querySelector('.resultname');
-	resultName.innerHTML = infoList[point].name;
+	resultName.innerHTML = menuList[score];
 
-	let resultImg = document.createElement('img');
-	const imgDiv = document.querySelector('#resultImg');
-	let imgURL = 'img/image-' + point + '.png';
-	resultImg.src = imgURL;
-	resultImg.alt = point;
-	resultImg.classList.add('img-fluid');
-	imgDiv.appendChild(resultImg);
+	// let resultImg = document.createElement('img');
+	// const imgDiv = document.querySelector('#resultImg');
+	// let imgURL = 'img/image-' + score + '.png';
+	// resultImg.src = imgURL;
+	// resultImg.alt = score;
+	// resultImg.classList.add('img-fluid');
+	// imgDiv.appendChild(resultImg);
 
-	const resultDesc = document.querySelector('.resultDesc');
-	resultDesc.innerHTML = infoList[point].desc;
+	// const resultDesc = document.querySelector('.resultDesc');
+	// resultDesc.innerHTML = menuList[score];
 }
 
 function goResult(){
@@ -53,18 +49,16 @@ function ImageFadeOut(qIdx, idx){
 	right.classList.add("fadeOut");
 
 	setTimeout(() => {
+		target = qnaList[qIdx].a[idx].coef;
+		score = score*2 + target;
+		console.log(score)
+
 		if(qIdx+1 === endPoint) {
 			goResult();
 			return;
 		} else {
 			setTimeout(() => {
-				target = qnaList[qIdx].a[idx].score;
-				console.log(target)
-
-				score += target;
-				console.log(score)
-
-				goNext(++qIdx);
+				goNext(++qIdx); 	
 			},200);
 		}
 	},200)
@@ -92,10 +86,12 @@ function goNext(qIdx){
 
 	left.addEventListener("click", function(){
 		ImageFadeOut(qIdx ,0);
+		left.removeEventListener('click', arguments.callee)
 	}, false);
 
 	right.addEventListener("click", function(){
 		ImageFadeOut(qIdx, 1);
+		right.removeEventListener('click', arguments.callee)
 	}, false);
 
 	let status = document.querySelector('.statusBar');

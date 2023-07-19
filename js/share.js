@@ -4,7 +4,7 @@ function setShare() {
 	let resultImg = document.querySelector("#resultImg");
 	let resultAlt = resultImg.firstElementChild.alt;
 	// const shareTitle = '아무테스트 결과'
-	// const shareDesc = infoList[resultAlt].name;
+	// const shareDesc = menuList[resultAlt].name;
 	const shareImage = url + '/img/image-' + resultAlt + '.png';
 	const shareURL = url + '/page/result-' + resultAlt + '.html';
 
