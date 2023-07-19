@@ -51,19 +51,29 @@
 			</section>
 
 			<!-- QNA -->
-			<section id="qna">
-				<div class="status mx-auto mt-5">
+		</section>
+		<section id="qna">
+			<div class="status mx-auto mt-5">
 					<div class="statusBar">
 					</div>
+		  	</div>
+			<div class="qBox my-5 py-3 mx-auto">
+	
+		  	</div>
+			<div class="row row-cols-1 row-cols-md-2 g-2 answerBox mx-auto">
+				<div class="col">
+					<div class="card">
+						<img src="./img/main.png" class="card-img-top leftImage" alt="...">
+					</div>
 				</div>
-				<div class="qBox my-5 py-3 mx-auto">
+				<div class="col">
+			  		<div class="card">
+						<img src="./img/main.png" class="card-img-top rightImage" alt="...">
+			  		</div>
 				</div>
-
-				<div class="row row-cols-1 row-cols-md-2 g-2 answerBox mx-auto">
-
-				</div>
-
-			</section>
+		  	</div>
+	
+		</section>
 
 			<!-- RESULT -->
 			<section id="result" class="mx-auto my-5 py-5 px-3">
@@ -79,10 +89,16 @@
 				</div>
 				<div class="buttonbox">
 					<button type="button" class="kakao mt-3 py-2 px-3" onclick="js:setShare()">공유하기</button>
-					<button type="button" class="retry mt-3 py-2 px-3" onclick="js:backtofirst()">다시하기</button>
+					<button type="button" class="retry mt-3 py-2 px-3" onclick="js:gotohome()">다시하기</button>
 				</div>
 			</section>
 
+			<script type="text/javascript">
+				function moveHome() {
+					location.href = "/index.html";
+				}
+			</script>
+			</script>
 			<script src="./js/data.js" charset="utf-8"></script>
 			<script src="./js/start.js" charset="utf-8"></script>
 			<script src="./js/share.js" charset="utf-8"></script>

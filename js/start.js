@@ -1,21 +1,18 @@
 const main = document.querySelector("#main");
 const qna = document.querySelector("#qna");
 const result = document.querySelector("#result");
+let target = 0
 
-const endPoint = 12;
-const select = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+const endPoint = qnaList.length;
+let score = 0;
 
-function backtofirst() {
-	location.reload();
-}
-
-function calResult() {
-	console.log(select);
-	let result = select.indexOf(Math.max(...select));
+function calResult(){
+	console.log(score);
+	let result = score;
 	return result;
 }
 
-function setResult() {
+function setResult(){
 	let point = calResult();
 	const resultName = document.querySelector('.resultname');
 	resultName.innerHTML = infoList[point].name;
@@ -24,7 +21,7 @@ function setResult() {
 	const imgDiv = document.querySelector('#resultImg');
 	let imgURL = 'img/image-' + point + '.png';
 	resultImg.src = imgURL;
-	resultImg.alt = 'result(' + point + ')';
+	resultImg.alt = point;
 	resultImg.classList.add('img-fluid');
 	imgDiv.appendChild(resultImg);
 
@@ -32,74 +29,90 @@ function setResult() {
 	resultDesc.innerHTML = infoList[point].desc;
 }
 
-function goResult() {
-	qna.style.WebkitAnimation = "fadeOut 1s";
-	qna.style.animation = "fadeOut 1s";
+function goResult(){
+	qna.style.WebkitAnimation = "fadeOut 0.5s";
+	qna.style.animation = "fadeOut 0.5s";
 	setTimeout(() => {
-		result.style.WebkitAnimation = "fadeIn 1s";
-		result.style.animation = "fadeIn 1s";
+		result.style.WebkitAnimation = "fadeIn 0.5s";
+		result.style.animation = "fadeIn 0.5s";
 		setTimeout(() => {
 			qna.style.display = "none";
 			result.style.display = "block"
-		}, 450)
-	})
+		}, 200)})
 	setResult();
 }
 
-function addAnswer(answerText, qIdx, idx) {
-	let a = document.querySelector('.answerBox');
-	let answer = document.createElement('button');
-	answer.classList.add('answerList');
-	answer.classList.add('my-3');
-	answer.classList.add('py-3');
-	answer.classList.add('mx-auto');
+function ImageFadeOut(qIdx, idx){
+	let left = document.querySelector('.leftImage');
+	let right = document.querySelector('.rightImage');
+	left.disabled = true;
+	left.classList.remove("fadeIn");
+	left.classList.add("fadeOut");
+	right.disabled = true;
+	right.classList.remove("fadeIn");
+	right.classList.add("fadeOut");
 
-	a.appendChild(answer);
-	answer.innerHTML = answerText;
-
-	answer.addEventListener("click", function () {
-		let children = document.querySelectorAll('.answerList');
-		for (let i = 0; i < children.length; i++) {
-			children[i].disabled = true;
-		}
-		let target = qnaList[qIdx].a[idx].type;
-		for (let i = 0; i < target.length; i++) {
-			select[target[i]] += 1;
-		}
-
-		for (let i = 0; i < children.length; i++) {
-			children[i].style.display = 'none';
-		}
-		goNext(++qIdx);
-	}, false);
-}
-
-function goNext(qIdx) {
-	if (qIdx === endPoint) {
-		goResult();
-		return;
-	}
-
-	let question = document.querySelector('.qBox');
-	question.innerHTML = qnaList[qIdx].q;
-	for (let i in qnaList[qIdx].a) {
-		addAnswer(qnaList[qIdx].a[i].answer, qIdx, i);
-	}
-	let status = document.querySelector('.statusBar');
-	status.style.width = (100 / endPoint) * (qIdx + 1) + '%';
-}
-
-function begin() {
-	main.style.WebkitAnimation = "fadeOut 500ms";
-	main.style.animation = "fadeOut 500ms";
 	setTimeout(() => {
-		qna.style.WebkitAnimation = "fadeIn 500ms";
-		qna.style.animation = "fadeIn 500ms";
-		setTimeout(() => {
-			main.style.display = "none";
-			qna.style.display = "block"
-		}, 200)
-		let qIdx = 0;
-		goNext(qIdx);
-	}, 200);
+		if(qIdx+1 === endPoint) {
+			goResult();
+			return;
+		} else {
+			setTimeout(() => {
+				target = qnaList[qIdx].a[idx].score;
+				console.log(target)
+
+				score += target;
+				console.log(score)
+
+				goNext(++qIdx);
+			},200);
+		}
+	},200)
+
+}
+
+function goNext(qIdx){
+  	let q = document.querySelector('.qBox');
+  	q.innerHTML = qnaList[qIdx].q;
+
+  	let left = document.querySelector('.leftImage');
+  	let right = document.querySelector('.rightImage');
+  	let qnaURL = './img/question/';
+  	left.src = qnaURL + qIdx + '-L.png';
+  	right.src = qnaURL + qIdx + '-R.png';
+
+  	try {
+    	left.classList.remove("fadeOut");
+    	right.classList.remove("fadeOut");
+  	} catch (e) {
+    	console.log(e);
+  	}
+	left.classList.add("fadeIn");
+	right.classList.add("fadeIn");
+
+	left.addEventListener("click", function(){
+		ImageFadeOut(qIdx ,0);
+	}, false);
+
+	right.addEventListener("click", function(){
+		ImageFadeOut(qIdx, 1);
+	}, false);
+
+	let status = document.querySelector('.statusBar');
+	status.style.width = (100/endPoint)*(qIdx+1)+'%';
+}
+
+function begin(){
+  	main.style.WebkitAnimation = "fadeOut 0.5s";
+  	main.style.animation = "fadeOut 0.5s";
+  	setTimeout(() => {
+    	qna.style.WebkitAnimation = "fadeIn 0.5s";
+    	qna.style.animation = "fadeIn 0.5s";
+    	setTimeout(() => {
+      		main.style.display = "none";
+      		qna.style.display = "block"
+    	}, 200)
+    	let qIdx = 0;
+    	goNext(qIdx);
+  	}, 200);
 }
