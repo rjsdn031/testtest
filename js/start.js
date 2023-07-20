@@ -3,11 +3,10 @@ const qna = document.querySelector("#qna");
 const result = document.querySelector("#result");
 let target = 0
 
-const endPoint = qnaList.length;
+const endPoint = Math.log2(qnaList.length+1);
 let score = 0;
 
 
-// setResult 수정해야함 20230720 
 function setResult(){
 
 	const resultName = document.querySelector('.resultname');
@@ -53,12 +52,12 @@ function ImageFadeOut(qIdx, idx){
 		score = score*2 + target;
 		console.log(score)
 
-		if(qIdx+1 === endPoint) {
+		if(Math.floor(Math.log2(qIdx+1))+1 === endPoint) {
 			goResult();
 			return;
 		} else {
 			setTimeout(() => {
-				goNext(++qIdx); 	
+				goNext(qIdx*2+target);
 			},200);
 		}
 	},200)
@@ -95,7 +94,7 @@ function goNext(qIdx){
 	}, false);
 
 	let status = document.querySelector('.statusBar');
-	status.style.width = (100/endPoint)*(qIdx+1)+'%';
+	status.style.width = (100/endPoint)*(Math.floor(Math.log2(qIdx+1))+1)+'%';
 }
 
 function begin(){
