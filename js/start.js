@@ -8,20 +8,10 @@ let score = 0;
 
 
 function setResult(){
-
 	const resultName = document.querySelector('.resultname');
-	resultName.innerHTML = menuList[score];
+	residx = Math.round(Math.random()*menuList[score-7].length);
+	resultName.innerHTML = menuList[score-7][residx];
 
-	// let resultImg = document.createElement('img');
-	// const imgDiv = document.querySelector('#resultImg');
-	// let imgURL = 'img/image-' + score + '.png';
-	// resultImg.src = imgURL;
-	// resultImg.alt = score;
-	// resultImg.classList.add('img-fluid');
-	// imgDiv.appendChild(resultImg);
-
-	// const resultDesc = document.querySelector('.resultDesc');
-	// resultDesc.innerHTML = menuList[score];
 }
 
 function goResult(){
@@ -64,6 +54,7 @@ function ImageFadeOut(qIdx, idx){
 
 }
 
+// not event listener, event handler - 230801
 function goNext(qIdx){
   	let q = document.querySelector('.qBox');
   	q.innerHTML = qnaList[qIdx].q;
@@ -80,18 +71,17 @@ function goNext(qIdx){
   	} catch (e) {
     	console.log(e);
   	}
+
 	left.classList.add("fadeIn");
 	right.classList.add("fadeIn");
 
-	left.addEventListener("click", function(){
+	left.onclick = function(){
 		ImageFadeOut(qIdx ,0);
-		left.removeEventListener('click', arguments.callee)
-	}, false);
+	};
 
-	right.addEventListener("click", function(){
+	right.onclick = function(){
 		ImageFadeOut(qIdx, 1);
-		right.removeEventListener('click', arguments.callee)
-	}, false);
+	};
 
 	let status = document.querySelector('.statusBar');
 	status.style.width = (100/endPoint)*(Math.floor(Math.log2(qIdx+1))+1)+'%';
